@@ -1,0 +1,6 @@
+[run]
+source = geopy
+
+[report]
+fail_under = 65
+show_missing = True
