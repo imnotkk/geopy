@@ -10,5 +10,5 @@ python:
 install:
     - travis_retry pip install coverage pytest requests-oauthlib pytz mock
 script:
-    - coverage run -m py.test
+    - coverage run -m py.test -s
     - coverage report

@@ -1,6 +1,8 @@
+from __future__ import print_function
 import threading
 import socket
 import select
+import sys
 
 from geopy.compat import urlopen
 
@@ -50,6 +52,7 @@ class ProxyServerThread(threading.Thread):
         self.daemon = True
 
     def get_proxy_url(self):
+        print('proxy: waiting spinup', file=sys.stderr)
         if not self.socket_created_event.wait(self.spinup_timeout):
             raise AssertionError("Proxy Server didn't successfully start")
         return "http://%s:%s" % (self.proxy_host, self.proxy_port)
@@ -66,6 +69,7 @@ class ProxyServerThread(threading.Thread):
             def do_GET(self):
                 requests.append(self.path)
 
+                print('proxy: requesting %s' % self.path, file=sys.stderr)
                 req = urlopen(self.path, timeout=self.timeout)
                 self.send_response(req.getcode())
                 self.send_header('Connection', 'close')
@@ -76,6 +80,8 @@ class ProxyServerThread(threading.Thread):
 
             def do_CONNECT(self):
                 requests.append(self.path)
+
+                print('proxy: connecting %s' % self.path, file=sys.stderr)
 
                 # Make a raw TCP connection to the target server
                 host, port = self.path.split(':')
@@ -94,6 +100,8 @@ class ProxyServerThread(threading.Thread):
                 pipe_sockets(self.connection,  # it closes sockets
                              other_connection, self.timeout)
 
+        print('proxy: starting server', file=sys.stderr)
+
         # ThreadingTCPServer offloads connections to separate threads, so
         # the serve_forever loop doesn't block until connection is closed
         # (unlike TCPServer). This allows to shutdown the serve_forever loop
@@ -107,9 +115,13 @@ class ProxyServerThread(threading.Thread):
         self.proxy_server.daemon_threads = True
 
         self.proxy_port = self.proxy_server.server_address[1]
+        print('proxy: listening on %s' % self.proxy_port, file=sys.stderr)
         self.socket_created_event.set()
+        print('proxy: serving', file=sys.stderr)
         self.proxy_server.serve_forever()
 
     def stop(self):
+        print('proxy: shutting down', file=sys.stderr)
         self.proxy_server.shutdown()  # stop serve_forever()
         self.proxy_server.server_close()
+        print('proxy: closing', file=sys.stderr)
