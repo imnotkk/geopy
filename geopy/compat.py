@@ -9,12 +9,12 @@ py3k = sys.version_info >= (3, 0)
 if py3k: # pragma: no cover
     string_compare = str
 else: # pragma: no cover
-    string_compare = (str, unicode)
+    string_compare = (str, unicode)  # pylint: disable=undefined-variable
 
 if py3k:  # pragma: no cover
     text_type = str
 else:  # pragma: no cover
-    text_type = unicode
+    text_type = unicode  # pylint: disable=undefined-variable
 
 # Unicode compatibility, borrowed from 'six'
 if py3k: # pragma: no cover
@@ -28,7 +28,7 @@ else: # pragma: no cover
         """
         Convert to Unicode with unicode escaping
         """
-        return unicode(s.replace(r'\\', r'\\\\'), 'unicode_escape')
+        return unicode(s.replace(r'\\', r'\\\\'), 'unicode_escape')  # pylint: disable=undefined-variable
 
 if py3k:
     def cmp(a, b):
@@ -68,13 +68,13 @@ else: # pragma: no cover
                          build_opener,
                          HTTPPasswordMgrWithDefaultRealm,
                          HTTPBasicAuthHandler)
-    from urlparse import urlparse, parse_qs
+    from urlparse import urlparse, parse_qs  # pylint: disable=import-error
 
     def force_str(str_or_unicode):
         """
         Python2-only, ensures that a string is encoding to a str.
         """
-        if isinstance(str_or_unicode, unicode):
+        if isinstance(str_or_unicode, unicode):  # pylint: disable=undefined-variable
             return str_or_unicode.encode('utf-8')
         else:
             return str_or_unicode

@@ -6,7 +6,7 @@ import logging
 from geopy.compat import py3k, text_type
 
 if not py3k: # pragma: no cover
-    NUMBER_TYPES = (int, long, float)
+    NUMBER_TYPES = (int, long, float)  # pylint: disable=undefined-variable
 else: # pragma: no cover
     NUMBER_TYPES = (int, float) # long -> int in Py3k
 try:

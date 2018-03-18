@@ -62,7 +62,7 @@ ERROR_CODE_MAP = {
 }
 
 
-class Geocoder(object): # pylint: disable=R0921
+class Geocoder(object):
     """
     Template object for geocoders.
     """
@@ -159,7 +159,7 @@ class Geocoder(object): # pylint: disable=R0921
             if hasattr(self, '_geocoder_exception_handler'):
                 self._geocoder_exception_handler(error, message) # pylint: disable=E1101
             if isinstance(error, HTTPError):
-                code = error.getcode()
+                code = error.getcode()  # pylint: disable=no-member
                 try:
                     raise ERROR_CODE_MAP[code](message)
                 except KeyError:

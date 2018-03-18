@@ -17,7 +17,7 @@ from geopy.util import logger
 __all__ = ("ArcGIS", )
 
 
-class ArcGIS(Geocoder):  # pylint: disable=R0921,R0902,W0223
+class ArcGIS(Geocoder):  # pylint: disable=R0902,W0223
     """
     Geocoder using the ERSI ArcGIS API. Documentation at:
         https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm

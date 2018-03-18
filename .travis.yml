@@ -8,7 +8,8 @@ python:
     - "pypy"
     - "pypy3"
 install:
-    - travis_retry pip install coverage pytest requests-oauthlib pytz mock
+    - travis_retry pip install coverage pytest pylint requests-oauthlib pytz mock
 script:
     - coverage run -m py.test -s
     - coverage report
+    - pylint --errors-only geopy

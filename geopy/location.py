@@ -6,7 +6,7 @@ from geopy.point import Point
 from geopy.compat import string_compare, py3k
 
 
-class Location(object): # pylint: disable=R0903,R0921
+class Location(object): # pylint: disable=R0903
     """
     Contains a parsed geocoder response. Can be iterated over as
     (location<String>, (latitude<float>, longitude<Float)). Or one can access
